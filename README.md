@@ -1,4 +1,4 @@
-# 🏪 Viking Store
+# 🏪 Vikings Store
 
 Aplicación de gestión de inventario y ventas para una tienda deportiva, desarrollada en Java aplicando Programación Orientada a Objetos.
 
@@ -46,4 +46,4 @@ Viking Store es un proyecto personal y académico que simula el sistema de una t
 
 **Diego Fernando Vera**
 Tecnólogo en Análisis y Desarrollo de Software
-GitHub: vikingos11-17
+GitHub: diegofvr
