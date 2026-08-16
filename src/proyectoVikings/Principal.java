@@ -108,9 +108,7 @@ public class Principal {
     // =====================
     // 3. VENDER PRODUCTO
     // =====================
-    public static void venderProducto(ArrayList<Producto> inventario,
-                                      ArrayList<Venta> ventas,
-                                      Scanner leer) {
+    public static void venderProducto(ArrayList<Producto> inventario, ArrayList<Venta> ventas, Scanner leer) {
         if (inventario.isEmpty()) {
             System.out.println("No hay productos para vender.");
             return;
@@ -119,9 +117,7 @@ public class Principal {
         // Muestra los productos disponibles
         System.out.println("\n=== PRODUCTOS DISPONIBLES ===");
         for (int i = 0; i < inventario.size(); i++) {
-            System.out.println((i + 1) + ". " + inventario.get(i).getNombre()
-                    + " - Stock: " + inventario.get(i).getStock()
-                    + " - $" + inventario.get(i).getPrecio());
+            System.out.println((i + 1) + ". " + inventario.get(i).getNombre() + " - Stock: " + inventario.get(i).getStock() + " - $" + inventario.get(i).getPrecio());
         }
 
         System.out.print("Elija el numero del producto: ");
