@@ -72,8 +72,12 @@ public class tienda{
     public static void agregarProducto(ArrayList<Producto> listaProductos, Scanner leer){
         System.out.println("--- Ingresar producto ---");
 
-        System.out.println("Ingrese  producto: ");
-        String producto = leer.nextLine();
+        System.out.println("Que producto quieres agregar: ");
+        System.out.println("1.Camisa.");
+        System.out.println("2.Pantalon.");
+        System.out.println("1.Zapatos.");
+        int tipoDeProdcuto = leer.nextInt();
+        leer.nextLine();
 
         System.out.println("Marca: ");
         String marca = leer.nextLine();
@@ -88,9 +92,30 @@ public class tienda{
         Double precio = leer.nextDouble();
         leer.nextLine();
 
+        System.out.println("Tipo (Oversize, training, runnig...");
+        String tipo = leer.nextLine();
 
-        listaProductos.add(new Producto(producto,marca,talla,color,precio));
-        System.out.println("El producto se ha agregado correctamente.");
+        switch (tipoDeProdcuto){
+            case 1:
+                listaProductos.add(new Camisa("Camisa",marca,talla,color,precio,tipo));
+                break;
+            case 2:
+                listaProductos.add(new Pantalon("Pantalon",marca,talla,color,precio,tipo));
+                break;
+            case 3:
+                listaProductos.add(new Zapatos("Zapatos",marca,talla,color,precio,tipo));
+                break;
+
+            default:
+                System.out.println("Opcion no valida");
+                return;
+
+        }
+        System.out.println("Producto agregado correctamente.");
+
+
+
+
     }
 
     public static void verProductos (ArrayList<Producto> listaProductos){
