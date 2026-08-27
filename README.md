@@ -1,24 +1,28 @@
-# 🏪 Vikings Store
+Vikings Store
 
 Aplicación de gestión de inventario y ventas para una tienda deportiva, desarrollada en Java aplicando Programación Orientada a Objetos.
 
-## 📋 Descripción
+Descripción
 
 Viking Store es un proyecto personal y académico que simula el sistema de una tienda deportiva. Permite registrar productos, ver el inventario, realizar ventas y buscar productos por nombre.
 
-## 🛠️ Tecnologías utilizadas
+Tecnologías utilizadas
 
-- **Lenguaje:** Java
-- **IDE:** IntelliJ IDEA
-- **Control de versiones:** Git y GitHub
+- Java
+- MySQL
+- JDBC (MySQL Connector)
 
-## 📁 Estructura del proyecto
 
-- **Producto.java** → Clase principal con encapsulamiento
-- **Venta.java** → Clase que gestiona las ventas
-- **Principal.java** → Menú CRUD e interacción con usuario
+Estructura del proyecto
 
-## ⚙️ Funcionalidades
+- **Producto.java** → Clase padre con encapsulamiento (atributos privados, getters y setters)
+- **Camisa.java** → Clase hija que hereda de Producto, agrega atributo tipo (oversize, manga corta, fit)
+- **Pantalon.java** → Clase hija que hereda de Producto, agrega atributo tipo (skinny, nudy, bota recta)
+- **Zapatos.java** → Clase hija que hereda de Producto, agrega atributo tipo (guayos, running, aventura)
+- **Conexion.java** → Clase que gestiona la conexión entre Java y MySQL (JDBC)
+- **tienda.java** → Menú CRUD e interacción con el usuario
+
+Funcionalidades
 
 - ✅ Ver inventario de productos
 - ✅ Registrar nuevos productos
@@ -27,22 +31,15 @@ Viking Store es un proyecto personal y académico que simula el sistema de una t
 - ✅ Buscar productos por nombre
 - ✅ Manejo de excepciones en entradas del usuario
 
-## 🧠 Conceptos aplicados
+Conceptos aplicados
 
 - Programación Orientada a Objetos (POO)
-- Encapsulamiento con private y getters
-- Constructor con this
-- ArrayList para gestión dinámica de datos
-- Manejo de excepciones con try-catch
-- Principio de responsabilidad única (SOLID)
+- Herencia y polimorfismo
+- Encapsulamiento (getters y setters)
+- Conexión a base de datos con JDBC
 
-## 🚀 Cómo ejecutarlo
 
-1. Clona el repositorio
-2. Ábrelo en IntelliJ IDEA
-3. Ejecuta Principal.java
-
-## 👨‍💻 Autor
+Autor
 
 **Diego Fernando Vera**
 Tecnólogo en Análisis y Desarrollo de Software
