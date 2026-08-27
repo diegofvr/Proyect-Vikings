@@ -1,6 +1,6 @@
 package tiendaVirtual;
 
-import java.sql.SQLOutput;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,6 +9,7 @@ public class tienda{
 
         ArrayList<Producto> listaProductos = new ArrayList<>();
         Scanner leer = new Scanner(System.in);
+        Connection conexion = Conexion.obtenerConexion();
 
 
         int opcion = 0;
