@@ -67,7 +67,12 @@ public class Producto {
         return precio;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecio(double precio){
+        if (precio > 0 ){
+            this.precio = precio;
+            System.out.println("Precio agregado correctamente");
+        }else {
+            System.out.println("No se permiten valores en negativo");
+        }
     }
 }

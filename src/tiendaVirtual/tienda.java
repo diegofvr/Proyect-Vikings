@@ -1,6 +1,7 @@
 package tiendaVirtual;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,7 +40,7 @@ public class tienda{
 
             switch (opcion){
                 case 1:
-                    agregarProducto (listaProductos,leer);
+                    agregarProducto (conexion,leer);
                     break;
                 case 2:
                     verProductos (listaProductos);
@@ -70,14 +71,14 @@ public class tienda{
         }while (opcion != 6);
 
     }
-    public static void agregarProducto(ArrayList<Producto> listaProductos, Scanner leer){
+    public static void agregarProducto(Connection conexion,Scanner leer){
         System.out.println("--- Ingresar producto ---");
 
         System.out.println("Que producto quieres agregar: ");
         System.out.println("1.Camisa.");
         System.out.println("2.Pantalon.");
         System.out.println("1.Zapatos.");
-        int tipoDeProdcuto = leer.nextInt();
+        int tipoDeProducto = leer.nextInt();
         leer.nextLine();
 
         System.out.println("Marca: ");
@@ -93,18 +94,26 @@ public class tienda{
         Double precio = leer.nextDouble();
         leer.nextLine();
 
+        while (precio <= 0){
+            System.out.println("No se aceptan valores negativos");
+            precio = leer.nextDouble();
+            leer.nextLine();
+        }
+
         System.out.println("Tipo (Oversize, training, runnig...");
         String tipo = leer.nextLine();
+        String producto = "";
 
-        switch (tipoDeProdcuto){
+
+        switch (tipoDeProducto){
             case 1:
-                listaProductos.add(new Camisa("Camisa",marca,talla,color,precio,tipo));
+                producto = "Camisa";
                 break;
             case 2:
-                listaProductos.add(new Pantalon("Pantalon",marca,talla,color,precio,tipo));
+                producto = "Pantalon";
                 break;
             case 3:
-                listaProductos.add(new Zapatos("Zapatos",marca,talla,color,precio,tipo));
+                producto = "Zapatos";
                 break;
 
             default:
@@ -112,7 +121,26 @@ public class tienda{
                 return;
 
         }
-        System.out.println("Producto agregado correctamente.");
+
+        try{
+            String sql = "INSERT INTO productos (producto,marca,talla,color,precio) VALUES (?,?,?,?,?)";
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1,producto);
+            stmt.setString(2,marca);
+            stmt.setString(3,talla);
+            stmt.setString(4,color);
+            stmt.setDouble(5,precio);
+
+            stmt.executeUpdate();
+
+            System.out.println("Producto agregado correctamente.");
+
+
+
+        } catch (Exception e){
+            System.out.println("Error al agregar: " + e.getMessage());
+        }
+
 
 
 
