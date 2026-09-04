@@ -2,6 +2,7 @@ package tiendaVirtual;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class tienda{
             System.out.println("¿Que desear hacer hoy?");
             System.out.println("1. Ingresar producto.");
             System.out.println("2. Ver productos.");
-            System.out.println("3.Buscar producto");
+            System.out.println("3. Buscar producto");
             System.out.println("4. Actualizar productos.");
             System.out.println("5. Eliminar productos.");
             System.out.println("6. Salir");
@@ -77,7 +78,7 @@ public class tienda{
         System.out.println("Que producto quieres agregar: ");
         System.out.println("1.Camisa.");
         System.out.println("2.Pantalon.");
-        System.out.println("1.Zapatos.");
+        System.out.println("3.Zapatos.");
         int tipoDeProducto = leer.nextInt();
         leer.nextLine();
 
@@ -147,16 +148,20 @@ public class tienda{
 
     }
 
-    public static void verProductos (ArrayList<Producto> listaProductos){
-        if (listaProductos.isEmpty()){
-            System.out.println("No hay productos");
-            return;
-        }
-        System.out.println("Productos en Viking Store.");
-        for (Producto p : listaProductos){
-          p.mostrarProductos();
-        }
+    public static void verProductos (Connection conexion){
+       String sql = "SELECT * FROM productos";
 
+       try {
+           PreparedStatement stmt = conexion.prepareStatement(sql);
+           ResultSet rs = stmt.executeQuery();
+
+           boolean hayProductos = false;
+
+           while (rs.next()){
+               
+           }
+
+       }
 
     }
 
