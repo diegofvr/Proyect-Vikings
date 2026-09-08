@@ -3,6 +3,7 @@ package tiendaVirtual;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public class tienda{
                     agregarProducto (conexion,leer);
                     break;
                 case 2:
-                    verProductos (listaProductos);
+                    verProductos (conexion);
 
 
 
@@ -52,7 +53,7 @@ public class tienda{
 
                     break;
                 case 3:
-                    buscarProducto (listaProductos,leer);
+                    buscarProducto (conexion,leer);
                     break;
                 case 4:
                     actualizarProducto (listaProductos,leer);
@@ -149,6 +150,7 @@ public class tienda{
     }
 
     public static void verProductos (Connection conexion){
+
        String sql = "SELECT * FROM productos";
 
        try {
@@ -158,35 +160,69 @@ public class tienda{
            boolean hayProductos = false;
 
            while (rs.next()){
-               
+               String producto = rs.getString("producto");
+               String marca = rs.getString("marca");
+               String talla = rs.getString("talla");
+               String color = rs.getString("color");
+               double precio = rs.getDouble("precio");
+
+
+               Producto p = new Producto(producto,marca,talla,color,precio);
+               p.mostrarProductos();
+
+               hayProductos = true;
+
+
+               }
+               if (!hayProductos){
+                   System.out.println("No hay productos");
+
            }
 
-       }
+
+       }catch (Exception e){
+        System.out.println("Error al consultar productos: " + e.getMessage());
+    }
 
     }
 
-    public static void buscarProducto (ArrayList<Producto> listaProductos, Scanner leer){
+    public static void buscarProducto (Connection conexion, Scanner leer){
         System.out.println("Nombre del producto a buscar: ");
         String Nombre = leer.nextLine();
 
         boolean encontrado = false;
 
-        for (Producto p : listaProductos){
+        String sql = "SELECT * FROM productos WHERE productos = ?";
+
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1,Nombre);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                String producto = rs.getString("producto");
+                String marca = rs.getString("marca");
+                String talla = rs.getString("talla");
+                String color = rs.getString("color");
+                double precio = rs.getDouble("precio");
 
 
-            if (p.getProducto().equalsIgnoreCase(Nombre)){
-                p.mostrarProductos();
                 encontrado = true;
 
+                Producto p = new Producto(producto, marca, talla, color, precio);
+                p.mostrarProductos();
+
+
+            }
+            if (!encontrado){
+                System.out.println("No se encontro el producto buscado");
             }
 
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar el producto: " + e.getMessage());
+
         }
-        if (! encontrado){
-            System.out.println("Producto no existe.");
-        }
-
-
-
 
 
     }
