@@ -1,9 +1,6 @@
 package tiendaVirtual;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -56,7 +53,7 @@ public class tienda{
                     buscarProducto (conexion,leer);
                     break;
                 case 4:
-                    actualizarProducto (listaProductos,leer);
+                    actualizarProducto (conexion,leer);
                     break;
                 case 5:
                     eliminarProducto (listaProductos, leer);
@@ -192,26 +189,27 @@ public class tienda{
 
         boolean encontrado = false;
 
-        String sql = "SELECT * FROM productos WHERE productos = ?";
+        String sql = "SELEC * FROM productos  WHERE producto = ?";
+
 
         try {
+
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setString(1,Nombre);
             ResultSet rs = stmt.executeQuery();
 
+
             while (rs.next()){
-                String producto = rs.getString("producto");
-                String marca = rs.getString("marca");
-                String talla = rs.getString("talla");
-                String color = rs.getString("color");
-                double precio = rs.getDouble("precio");
+                String producto = rs.getString("Producto");
+                String marca = rs.getString("Marca");
+                String talla = rs.getString("Talla");
+                String color = rs.getString("Color");
+                double precio = rs.getDouble("Precio");
 
 
-                encontrado = true;
-
-                Producto p = new Producto(producto, marca, talla, color, precio);
-                p.mostrarProductos();
-
+                Producto p = new Producto(producto,marca,talla,color,precio);
+                    p.mostrarProductos();
+                    encontrado = true;
 
             }
             if (!encontrado){
@@ -219,73 +217,77 @@ public class tienda{
             }
 
 
-        } catch (SQLException e) {
-            System.out.println("Error al buscar el producto: " + e.getMessage());
+        }catch (Exception e){
+            System.out.println("Erro al buscar prodcuto " + e.getMessage());
 
         }
 
-
     }
 
-    public static void actualizarProducto(ArrayList<Producto> listaProductos, Scanner leer){
+    public static void actualizarProducto(Connection conexion, Scanner leer){
         System.out.println("Nombre del producto a actualizar: ");
         String Nombre = leer.nextLine();
 
         boolean encontrado = false;
 
-        for (Producto p : listaProductos){
-            if (p.getProducto().equalsIgnoreCase(Nombre)){
-                p.mostrarProductos();
 
-                System.out.println("¿Qué desea actualizar?");
-                System.out.println("1. Producto");
-                System.out.println("2. Marca");
-                System.out.println("3. Talla");
-                System.out.println("4. Color");
-                System.out.println("5. Precio");
+        System.out.println("¿Qué desea actualizar?");
+        System.out.println("1. Producto");
+        System.out.println("2. Marca");
+        System.out.println("3. Talla");
+        System.out.println("4. Color");
+        System.out.println("5. Precio");
 
-                int opcionActualizar = leer.nextInt();
-                leer.nextLine();
-
-                switch (opcionActualizar){
-                    case 1:
-                        System.out.println("Nuevo nombre: ");
-                        p.setProducto(leer.nextLine());
-                        break;
+        int opcionActualizar = leer.nextInt();
+        leer.nextLine();
 
 
-                    case 2:
-                        System.out.println("Nueva marca: ");
-                        p.setMarca(leer.nextLine());
-                        break;
+        try {
+            String sql = "";
 
-                    case 3:
-                        System.out.println("Nuevo color: ");
-                        p.setColor(leer.nextLine());
-                        break;
+            switch (opcionActualizar){
+                case 1:
+                    sql = "UPDATE productos SET producto = ? WHERE producto = ?";
+                    break;
 
-                    case 4:
-                        System.out.println("Nueva talla: ");
-                        p.setTalla(leer.nextLine());
-                        break;
+                case 2:
+                    sql = "UPDATE productos SET marca = ? WHERE producto = ?";
+                    break;
 
-                    case 5:
-                        System.out.println("Nuevo precio: ");
-                        p.setPrecio(leer.nextDouble());
-                        break;
-                    default:
-                        System.out.println("Opcion no valida");
-                }
+                case 3:
+                    sql = "UPDATE productos SET talla = ? WHERE producto = ?";
+                    break;
 
-                encontrado = true;
-                System.out.println("Producto actualizado correctamente.");
+                case 4:
+                    sql = "UPDATE productos SET color = ? WHERE producto = ?";
+                    break;
+
+
+                case 5:
+                    sql = "UPDATE productos SET precio = ? WHERE producto = ?";
+                    break;
+
+
+
+
 
 
             }
+
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+
+
+
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        if (!encontrado){
-            System.out.println("Producto no existe");
-        }
+
+
+
+
+
 
 
 
