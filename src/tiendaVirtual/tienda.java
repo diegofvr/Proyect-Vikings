@@ -228,7 +228,6 @@ public class tienda{
         System.out.println("Nombre del producto a actualizar: ");
         String Nombre = leer.nextLine();
 
-        boolean encontrado = false;
 
 
         System.out.println("¿Qué desea actualizar?");
@@ -266,22 +265,66 @@ public class tienda{
                 case 5:
                     sql = "UPDATE productos SET precio = ? WHERE producto = ?";
                     break;
+            }
 
 
 
 
+            PreparedStatement stmt = conexion.prepareStatement(sql);
 
+
+            switch (opcionActualizar){
+
+                case 1:
+                    System.out.println("Nuevo producto: ");
+                    String nuevoProducto = leer.nextLine();
+                    stmt.setString(1,nuevoProducto);
+                    break;
+
+                case 2:
+                    System.out.println("Nueva marca: ");
+                    String nuevaMarca = leer.nextLine();
+                    stmt.setString(1,nuevaMarca);
+                    break;
+
+                case 3:
+                    System.out.println("Nueva talla: ");
+                    String nuevaTalla = leer.nextLine();
+                    stmt.setString(1,nuevaTalla);
+                    break;
+
+                case 4:
+                    System.out.println("Nuevo color: ");
+                    String nuevoColor = leer.nextLine();
+                    stmt.setString(1,nuevoColor);
+                    break;
+
+                case 5:
+                    System.out.println("Nuevo precio: ");
+                    double nuevoPrecio = leer.nextDouble();
+                    stmt.setDouble(1,nuevoPrecio);
+                    break;
 
             }
 
-            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(2,Nombre);
+
+            int filaAfectadas = stmt.executeUpdate();
+
+            if (filaAfectadas > 0){
+                System.out.println("Producto actualizado correctamente");
+            }else{
+                System.out.println("Producto no existe");
+            }
+
 
 
 
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Error al actualizar el producto: " + e.getMessage());
+
         }
 
 
