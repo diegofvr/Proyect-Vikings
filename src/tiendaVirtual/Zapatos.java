@@ -4,8 +4,8 @@ public class Zapatos extends Producto {
 
     private String tipo;
 
-    public Zapatos (String producto, String marca, String talla, String color, double precio, String tipo ){
-        super(producto, marca, talla, color, precio);
+    public Zapatos (int id, String producto, String marca, String talla, String color, double precio, String tipo ){
+        super(id, producto, marca, talla, color, precio);
         this.tipo = tipo;
 
     }

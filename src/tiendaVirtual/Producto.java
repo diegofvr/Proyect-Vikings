@@ -1,7 +1,7 @@
 package tiendaVirtual;
 
 public class Producto {
-
+     private int id;
      private String producto;
      private String marca;
      private String talla;
@@ -11,7 +11,8 @@ public class Producto {
 
 
 
-    public Producto (String producto,String marca, String talla, String color, double precio){
+    public Producto (int id, String producto, String marca, String talla, String color, double precio){
+        this.id = id;
         this.producto = producto;
         this.marca = marca;
         this.talla = talla;
@@ -22,6 +23,7 @@ public class Producto {
 
     public void mostrarProductos(){
         System.out.println("--- Vikings Store ---");
+        System.out.println("ID: " + id);
         System.out.println("Producto: " + producto);
         System.out.println("Marca: " + marca);
         System.out.println("Talla: " + talla);
@@ -30,6 +32,14 @@ public class Producto {
 
     }
 
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
 
     public void setProducto(String producto) {
         this.producto = producto;

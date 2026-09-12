@@ -5,8 +5,8 @@ public class Pantalon extends  Producto{
     private String tipo;
 
 
-    public Pantalon (String producto, String marca, String talla, String color, double precio, String tipo){
-        super(producto, marca, talla, color, precio);
+    public Pantalon (int id, String producto, String marca, String talla, String color, double precio, String tipo){
+        super(id, producto, marca, talla, color, precio);
         this.tipo = tipo;
     }
     @Override

@@ -1,13 +1,11 @@
 package tiendaVirtual;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class tienda{
     public static void main (String[] args){
 
-        ArrayList<Producto> listaProductos = new ArrayList<>();
         Scanner leer = new Scanner(System.in);
         Connection conexion = Conexion.obtenerConexion();
 
@@ -24,7 +22,12 @@ public class tienda{
             System.out.println("5. Eliminar productos.");
             System.out.println("6. Salir");
 
+
+
+
+
             try {
+                System.out.println("Escribe una opcion: ");
                 opcion = leer.nextInt();
                 leer.nextLine();
 
@@ -43,11 +46,6 @@ public class tienda{
                     break;
                 case 2:
                     verProductos (conexion);
-
-
-
-
-
                     break;
                 case 3:
                     buscarProducto (conexion,leer);
@@ -56,7 +54,7 @@ public class tienda{
                     actualizarProducto (conexion,leer);
                     break;
                 case 5:
-                    eliminarProducto (listaProductos, leer);
+                    eliminarProducto (conexion, leer);
                     break;
                 case 6:
                     System.out.println("Cerrando tienda...");
@@ -157,6 +155,7 @@ public class tienda{
            boolean hayProductos = false;
 
            while (rs.next()){
+               int id = rs.getInt("id");
                String producto = rs.getString("producto");
                String marca = rs.getString("marca");
                String talla = rs.getString("talla");
@@ -164,7 +163,7 @@ public class tienda{
                double precio = rs.getDouble("precio");
 
 
-               Producto p = new Producto(producto,marca,talla,color,precio);
+               Producto p = new Producto(id,producto,marca,talla,color,precio);
                p.mostrarProductos();
 
                hayProductos = true;
@@ -184,22 +183,23 @@ public class tienda{
     }
 
     public static void buscarProducto (Connection conexion, Scanner leer){
-        System.out.println("Nombre del producto a buscar: ");
-        String Nombre = leer.nextLine();
+        System.out.println("ID del producto a buscar: ");
+        String IdBuscar = leer.nextLine();
 
         boolean encontrado = false;
 
-        String sql = "SELEC * FROM productos  WHERE producto = ?";
+        String sql = "SELECT * FROM productos  WHERE id = ?";
 
 
         try {
 
             PreparedStatement stmt = conexion.prepareStatement(sql);
-            stmt.setString(1,Nombre);
+            stmt.setString(1,IdBuscar);
             ResultSet rs = stmt.executeQuery();
 
 
             while (rs.next()){
+                int id = rs.getInt("id");
                 String producto = rs.getString("Producto");
                 String marca = rs.getString("Marca");
                 String talla = rs.getString("Talla");
@@ -207,7 +207,7 @@ public class tienda{
                 double precio = rs.getDouble("Precio");
 
 
-                Producto p = new Producto(producto,marca,talla,color,precio);
+                Producto p = new Producto(id, producto,marca,talla,color,precio);
                     p.mostrarProductos();
                     encontrado = true;
 
@@ -218,15 +218,18 @@ public class tienda{
 
 
         }catch (Exception e){
-            System.out.println("Erro al buscar prodcuto " + e.getMessage());
+            System.out.println("Error al buscar prodcuto " + e.getMessage());
 
         }
 
     }
 
     public static void actualizarProducto(Connection conexion, Scanner leer){
-        System.out.println("Nombre del producto a actualizar: ");
-        String Nombre = leer.nextLine();
+        System.out.println("ID del producto a buscar: ");
+        int IdActualizar = leer.nextInt();
+        leer.nextLine();
+
+
 
 
 
@@ -246,24 +249,24 @@ public class tienda{
 
             switch (opcionActualizar){
                 case 1:
-                    sql = "UPDATE productos SET producto = ? WHERE producto = ?";
+                    sql = "UPDATE productos SET producto = ? WHERE id = ?";
                     break;
 
                 case 2:
-                    sql = "UPDATE productos SET marca = ? WHERE producto = ?";
+                    sql = "UPDATE productos SET marca = ? WHERE id = ?";
                     break;
 
                 case 3:
-                    sql = "UPDATE productos SET talla = ? WHERE producto = ?";
+                    sql = "UPDATE productos SET talla = ? WHERE id = ?";
                     break;
 
                 case 4:
-                    sql = "UPDATE productos SET color = ? WHERE producto = ?";
+                    sql = "UPDATE productos SET color = ? WHERE id = ?";
                     break;
 
 
                 case 5:
-                    sql = "UPDATE productos SET precio = ? WHERE producto = ?";
+                    sql = "UPDATE productos SET precio = ? WHERE id = ?";
                     break;
             }
 
@@ -307,7 +310,7 @@ public class tienda{
 
             }
 
-            stmt.setString(2,Nombre);
+            stmt.setInt(2,IdActualizar);
 
             int filaAfectadas = stmt.executeUpdate();
 
@@ -337,28 +340,37 @@ public class tienda{
 
     }
 
-    public static void eliminarProducto (ArrayList<Producto> listaProductos, Scanner leer){
-        System.out.println("Nombre del producto a eliminar ");
-        String nombreEliminar = leer.nextLine();
+    public static void eliminarProducto (Connection conexion, Scanner leer) {
+        System.out.println("ID del producto a eliminar: ");
+        int IdEliminar = leer.nextInt();
+        leer.nextLine();
 
-        boolean encontrado = false;
 
-        for (Producto p : listaProductos){
-            if (p.getProducto().equalsIgnoreCase(nombreEliminar)){
-                listaProductos.remove(p);
-                encontrado = true;
-                break;
+        String sql = "DELETE FROM productos WHERE id = ?";
 
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, IdEliminar);
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Producto eliminado correctamente.");
+
+            } else {
+                System.out.println("Producto no encontrado ");
             }
 
+
+        } catch (Exception e) {
+            if (e.getMessage().contains("foreign key constraint")) {
+                System.out.println("No se puede eliminar: este producto tiene ventas registradas.");
+            } else {
+                System.out.println("Error al eliminar producto: " + e.getMessage());
+            }
         }
-        if (! encontrado){
-            System.out.println("Producto no encontrado");
-        }
+
 
     }
-
-
-
 
 }
