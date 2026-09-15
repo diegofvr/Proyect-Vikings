@@ -75,8 +75,35 @@ public class tienda{
         System.out.println("1.Camisa.");
         System.out.println("2.Pantalon.");
         System.out.println("3.Zapatos.");
-        int tipoDeProducto = leer.nextInt();
+        int categoria = leer.nextInt();
         leer.nextLine();
+
+
+
+        String producto = "";
+
+
+
+        switch (categoria){
+
+
+            case 1:
+                producto = "Camisa";
+                break;
+            case 2:
+                producto = "Pantalon";
+                break;
+            case 3:
+                producto = "Zapatos";
+                break;
+
+            default:
+                System.out.println("Opcion no valida");
+                return;
+
+        }
+
+
 
         System.out.println("Marca: ");
         String marca = leer.nextLine();
@@ -97,27 +124,7 @@ public class tienda{
             leer.nextLine();
         }
 
-        System.out.println("Tipo (Oversize, training, runnig...");
-        String tipo = leer.nextLine();
-        String producto = "";
 
-
-        switch (tipoDeProducto){
-            case 1:
-                producto = "Camisa";
-                break;
-            case 2:
-                producto = "Pantalon";
-                break;
-            case 3:
-                producto = "Zapatos";
-                break;
-
-            default:
-                System.out.println("Opcion no valida");
-                return;
-
-        }
 
         try{
             String sql = "INSERT INTO productos (producto,marca,talla,color,precio) VALUES (?,?,?,?,?)";
