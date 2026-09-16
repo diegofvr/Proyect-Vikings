@@ -162,12 +162,12 @@ public class tienda{
            boolean hayProductos = false;
 
            while (rs.next()){
-               int id = rs.getInt("id");
-               String producto = rs.getString("producto");
-               String marca = rs.getString("marca");
-               String talla = rs.getString("talla");
-               String color = rs.getString("color");
-               double precio = rs.getDouble("precio");
+               int id = rs.getInt("Id");
+               String producto = rs.getString("Producto");
+               String marca = rs.getString("Marca");
+               String talla = rs.getString("Talla");
+               String color = rs.getString("Color");
+               double precio = rs.getDouble("Precio");
 
 
                Producto p = new Producto(id,producto,marca,talla,color,precio);
@@ -190,8 +190,9 @@ public class tienda{
     }
 
     public static void buscarProducto (Connection conexion, Scanner leer){
-        System.out.println("ID del producto a buscar: ");
-        String IdBuscar = leer.nextLine();
+        System.out.println("ID del producto a actualizar: ");
+        int IdBuscar = leer.nextInt();
+        leer.nextLine();
 
         boolean encontrado = false;
 
@@ -201,12 +202,12 @@ public class tienda{
         try {
 
             PreparedStatement stmt = conexion.prepareStatement(sql);
-            stmt.setString(1,IdBuscar);
+            stmt.setInt(1,IdBuscar);
             ResultSet rs = stmt.executeQuery();
 
 
             while (rs.next()){
-                int id = rs.getInt("id");
+                int id = rs.getInt("Id");
                 String producto = rs.getString("Producto");
                 String marca = rs.getString("Marca");
                 String talla = rs.getString("Talla");
