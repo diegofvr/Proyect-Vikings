@@ -24,12 +24,12 @@ Estructura del proyecto
 
 Funcionalidades
 
-- ✅ Ver inventario de productos
-- ✅ Registrar nuevos productos
-- ✅ Vender productos con control de stock
-- ✅ Ver historial de ventas con total general
-- ✅ Buscar productos por nombre
-- ✅ Manejo de excepciones en entradas del usuario
+-  Ver inventario de productos
+-  Registrar nuevos productos
+-  Vender productos con control de stock
+-  Ver historial de ventas con total general
+-  Buscar productos por nombre
+-  Manejo de excepciones en entradas del usuario
 
 Conceptos aplicados
 
